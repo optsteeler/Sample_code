@@ -12,4 +12,8 @@ Pillow
 scikit-learn
 streamlit-extras
 requests
+langchain
+langchain-community
 llama-index
+mediapipe
+opencv-python
