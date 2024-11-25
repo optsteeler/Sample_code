@@ -8,6 +8,8 @@ import streamlit as st
 from setup_st import *
 from helper_functions import *
 from index_functions import *
+from avatar.face_animation import AvatarAnimator
+import threading
 
 # Initialize session state variables if they don't exist
 initialize_session_state()
@@ -19,6 +21,35 @@ get_user_config()
 clear_button()
 download_button()
 
+from dotenv import load_dotenv
+import os
+
+# Load environment variables from .env file
+load_dotenv()
+
+# Access the OpenAI API key from the environment variable
+openai_api_key = os.getenv("OPENAI_API_KEY")
+
+def start_avatar_animation():
+    animator = AvatarAnimator("avatar/babak.png")
+    animator.animate_avatar()
+
+def main():
+    st.title("Visual Chatbot")
+
+    # Start avatar animation in a separate thread
+    avatar_thread = threading.Thread(target=start_avatar_animation)
+    avatar_thread.start()
+
+    # Chatbot logic
+    st.write("Chat with the bot below!")
+    user_input = st.text_input("Enter your message:")
+    if user_input:
+        response = "This is a dummy response. Replace with your chatbot logic."
+        st.write(f"Bot: {response}")
+
+if __name__ == "__main__":
+    main()
 # Setting up environment variables for OpenAI API key
 if 'api_key' in st.session_state and st.session_state['api_key']:
     openai.api_key = st.session_state['api_key']
